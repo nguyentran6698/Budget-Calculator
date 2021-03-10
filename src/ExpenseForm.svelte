@@ -1,8 +1,11 @@
 <script>
   import Title from "./Title.svelte";
   import { getContext } from "svelte";
-  let name = "";
-  let amount = null;
+  export let name = "";
+  export let amount = null;
+  export let isEditing;
+  export let editExpense;
+  export let hideForm;
   // reactivity
   $: isEmpty = !name || !amount;
   // context
@@ -10,9 +13,13 @@
 
   //function
   function handleSubmit() {
-    addExpense({ name, amount });
-    name = "";
-    amount = null;
+    if (isEditing) {
+      editExpense({ name, amount });
+    } else {
+      addExpense({ name, amount });
+      name = "";
+      amount = null;
+    }
   }
 </script>
 
@@ -35,9 +42,14 @@
       type="submit"
       class="btn btn-block "
       class:disabled={isEmpty}
-      disabled={isEmpty}>add expense</button
+      disabled={isEmpty}
+      >{#if isEditing}
+        edit expense
+      {:else}
+        add expense
+      {/if}</button
     >
-    <button type="button" class="close-btn">
+    <button type="button" class="close-btn" on:click={() => hideForm()}>
       <i class="fas fa-times" />
       close
     </button>
