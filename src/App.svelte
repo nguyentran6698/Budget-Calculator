@@ -81,8 +81,8 @@
 <Navbar {showForm} />
 
 <main class="content">
-  <GithubAwait />
-  <!-- {#if isFormOpen}
+  <!-- <GithubAwait /> -->
+  {#if isFormOpen}
     <Modal>
       <ExpenseForm
         {isEditing}
@@ -100,5 +100,5 @@
     class="btn btn-primary btn-block"
     type="button"
     on:click={clearExpenses}>clear expenses</button
-  > -->
+  >
 </main>
