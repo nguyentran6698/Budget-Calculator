@@ -1,15 +1,17 @@
 <!-- JS -->
 <script>
-  import { setContext } from "svelte";
+  import { setContext, onMount, afterUpdate } from "svelte";
   // components
   import ExpenseForm from "./ExpenseForm.svelte";
   import Navbar from "./Navbar.svelte";
   import ExpensesList from "./ExpensesList.svelte";
   import Total from "./Total.svelte";
+  import Modal from "./Modal.svelte";
+  import GithubAwait from "./GithubAwait.svelte";
   //data
-  import expensesData from "./expenses";
+  // import expensesData from "./expenses";
   // variable
-  let expenses = [...expensesData];
+  let expenses = [];
   let setID = null;
   let setName = "";
   let setAmount = null;
@@ -53,7 +55,6 @@
   }
   function setModifiedExpense(id) {
     let expense = expenses.find((expense) => expense.id === id);
-    console.log(expense);
     setID = expense.id;
     setName = expense.name;
     setAmount = expense.amount;
@@ -63,20 +64,34 @@
   setContext("add", addExpense);
   setContext("remove", removeExpense);
   setContext("modify", setModifiedExpense);
-  //
+  //local storage
+  function setLocalStorage() {
+    localStorage.setItem("expenses", JSON.stringify(expenses));
+  }
+  onMount(() => {
+    expenses = localStorage.getItem("expenses")
+      ? JSON.parse(localStorage.getItem("expenses"))
+      : [];
+  });
+  afterUpdate(() => {
+    setLocalStorage();
+  });
 </script>
 
 <Navbar {showForm} />
 
 <main class="content">
-  {#if isFormOpen}
-    <ExpenseForm
-      {isEditing}
-      name={setName}
-      amount={setAmount}
-      {editExpense}
-      {hideForm}
-    />
+  <GithubAwait />
+  <!-- {#if isFormOpen}
+    <Modal>
+      <ExpenseForm
+        {isEditing}
+        name={setName}
+        amount={setAmount}
+        {editExpense}
+        {hideForm}
+      /></Modal
+    >
   {/if}
 
   <Total title="total expense" {total} />
@@ -85,5 +100,5 @@
     class="btn btn-primary btn-block"
     type="button"
     on:click={clearExpenses}>clear expenses</button
-  >
+  > -->
 </main>

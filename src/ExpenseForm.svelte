@@ -1,4 +1,17 @@
 <script>
+  import { onMount, onDestroy, beforeUpdate, afterUpdate } from "svelte";
+  // onMount(() => {
+  //   console.log("form has mounted");
+  // });
+  // onDestroy(() => {
+  //   console.log("form has destroy");
+  // });
+  // beforeUpdate(() => {
+  //   console.count("before update");
+  // });
+  // afterUpdate(() => {
+  //   console.count("after update");
+  // });
   import Title from "./Title.svelte";
   import { getContext } from "svelte";
   export let name = "";
@@ -17,9 +30,10 @@
       editExpense({ name, amount });
     } else {
       addExpense({ name, amount });
-      name = "";
-      amount = null;
     }
+    name = "";
+    amount = null;
+    hideForm();
   }
 </script>
 
