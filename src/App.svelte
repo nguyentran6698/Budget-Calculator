@@ -81,7 +81,7 @@
 <Navbar {showForm} />
 
 <main class="content">
-  <!-- <GithubAwait /> -->
+  <GithubAwait />
   {#if isFormOpen}
     <Modal>
       <ExpenseForm
